@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Formularz sprzedaży – CashGame</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body class="form-page">
+
+  <div class="noise-overlay"></div>
+
+  <!-- NAV -->
+  <nav class="nav" id="nav">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo">
+        <span class="logo-icon">⬡</span>
+        <span>Cash<em>Game</em></span>
+      </a>
+      <a href="index.html" class="btn-ghost nav-back">← Wróć</a>
+    </div>
+  </nav>
+
+  <!-- FORM HERO -->
+  <section class="form-hero">
+    <div class="hero-orbs">
+      <div class="orb orb1"></div>
+      <div class="orb orb2"></div>
+    </div>
+    <div class="container">
+      <div class="form-hero-text reveal">
+        <span class="section-tag">Formularz sprzedaży</span>
+        <h1>Sprzedaj <span class="gradient-text">pada</span></h1>
+        <p>Wypełnij formularz, a wrócimy do Ciebie z wyceną w ciągu 24 godzin</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FORM SECTION -->
+  <section class="form-section">
+    <div class="container">
+      <div class="form-layout">
+
+        <!-- FORM -->
+        <div class="form-wrapper reveal">
+          <div id="formSuccess" class="form-success hidden">
+            <div class="success-icon">✓</div>
+            <h3>Formularz wysłany!</h3>
+            <p>Skontaktujemy się z Tobą w ciągu 24 godzin.</p>
+            <a href="index.html" class="btn-primary">
+              <span class="btn-text">Wróć na stronę</span>
+              <span class="btn-glow"></span>
+            </a>
+          </div>
+
+          <form id="sellForm" action="php/send.php" method="POST" enctype="multipart/form-data" novalidate>
+
+            <!-- EMAIL -->
+            <div class="field-group">
+              <label for="email">Adres email <span class="required">*</span></label>
+              <div class="input-wrapper">
+                <input type="email" id="email" name="email" placeholder="twoj@email.pl" autocomplete="email" />
+                <span class="input-icon">✉</span>
+              </div>
+              <span class="field-error" id="emailError"></span>
+            </div>
+
+            <!-- CONFIRM EMAIL -->
+            <div class="field-group">
+              <label for="confirm_email">Potwierdź email <span class="required">*</span></label>
+              <div class="input-wrapper">
+                <input type="email" id="confirm_email" name="confirm_email" placeholder="powtórz@email.pl" autocomplete="off" />
+                <span class="input-icon" id="emailMatchIcon"></span>
+              </div>
+              <span class="field-error" id="confirmEmailError"></span>
+            </div>
+
+            <!-- CONTROLLER SELECT -->
+            <div class="field-group">
+              <label for="controller">Model kontrolera <span class="required">*</span></label>
+              <div class="select-wrapper">
+                <select id="controller" name="controller">
+                  <option value="">— Wybierz model —</option>
+                  <option value="DualSense PS5">DualSense (PS5)</option>
+                  <option value="DualShock 4 PS4">DualShock 4 (PS4)</option>
+                  <option value="Xbox Series">Xbox Series X/S</option>
+                  <option value="Xbox One">Xbox One</option>
+                </select>
+                <span class="select-arrow">▾</span>
+              </div>
+              <span class="field-error" id="controllerError"></span>
+            </div>
+
+            <!-- PRICE ESTIMATE -->
+            <div class="price-calculator" id="priceCalc">
+              <div class="price-calc-inner">
+                <div class="price-label">Szacowana maksymalna wycena:</div>
+                <div class="price-value" id="priceValue">—</div>
+                <div class="price-sub">Ostateczna cena zależy od stanu pada</div>
+                <div class="price-bar"><div class="price-bar-fill" id="priceBarFill"></div></div>
+              </div>
+            </div>
+
+            <!-- DESCRIPTION -->
+            <div class="field-group">
+              <label for="description">Opis problemu <span class="required">*</span></label>
+              <textarea id="description" name="description" rows="4" placeholder="np. drift w analogach / nie działa przycisk X / zalany / pęknięta obudowa / inne..."></textarea>
+              <span class="field-error" id="descriptionError"></span>
+              <span class="char-count"><span id="charCount">0</span>/500</span>
+            </div>
+
+            <!-- PHOTO UPLOAD -->
+            <div class="field-group">
+              <label>Zdjęcia pada <span class="required">*</span></label>
+              <div class="upload-area" id="uploadArea">
+                <input type="file" id="photos" name="photos[]" multiple accept=".jpg,.jpeg,.png,.webp" />
+                <div class="upload-content">
+                  <div class="upload-icon">📷</div>
+                  <div class="upload-text">
+                    <strong>Kliknij lub przeciągnij zdjęcia</strong>
+                    <span>JPG, PNG, WEBP · max 5 zdjęć · max 5 MB każde</span>
+                  </div>
+                </div>
+              </div>
+              <span class="field-error" id="photosError"></span>
+              <div class="photo-previews" id="photoPreviews"></div>
+            </div>
+
+            <!-- SUBMIT -->
+            <button type="submit" class="btn-primary btn-submit" id="submitBtn">
+              <span class="btn-text">WYŚLIJ FORMULARZ</span>
+              <span class="btn-icon">→</span>
+              <span class="btn-glow"></span>
+              <span class="btn-loader hidden" id="btnLoader">
+                <span class="loader-dot"></span>
+                <span class="loader-dot"></span>
+                <span class="loader-dot"></span>
+              </span>
+            </button>
+
+          </form>
+        </div>
+
+        <!-- SIDEBAR -->
+        <div class="form-sidebar">
+          <div class="sidebar-card reveal reveal-delay-1">
+            <h4>Ceny skupu</h4>
+            <div class="price-list">
+              <div class="price-row">
+                <span class="price-badge ps5">PS5</span>
+                <span>DualSense</span>
+                <strong>do 180 zł</strong>
+              </div>
+              <div class="price-row">
+                <span class="price-badge ps4">PS4</span>
+                <span>DualShock 4</span>
+                <strong>do 120 zł</strong>
+              </div>
+              <div class="price-row">
+                <span class="price-badge xbox-s">XSX</span>
+                <span>Xbox Series</span>
+                <strong>do 150 zł</strong>
+              </div>
+              <div class="price-row">
+                <span class="price-badge xbox-o">XBO</span>
+                <span>Xbox One</span>
+                <strong>do 110 zł</strong>
+              </div>
+            </div>
+          </div>
+          <div class="sidebar-card reveal reveal-delay-2">
+            <h4>Jak przygotować zdjęcia?</h4>
+            <ul class="tips-list">
+              <li>📸 Zdjęcie od frontu i tyłu</li>
+              <li>🔍 Zbliżenie na uszkodzenie</li>
+              <li>💡 Dobre oświetlenie</li>
+              <li>📐 Ostre, niezamazane zdjęcia</li>
+              <li>🔋 Zdjęcie gniazda ładowania</li>
+            </ul>
+          </div>
+          <div class="sidebar-card sidebar-cta reveal reveal-delay-3">
+            <div class="sidebar-cta-icon">⚡</div>
+            <h4>Masz pytania?</h4>
+            <p>Napisz do nas przed wysłaniem formularza</p>
+            <a href="mailto:daniel.zajac008@gmail.com">daniel.zajac008@gmail.com</a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <script src="js/script.js"></script>
+</body>
+</html>
